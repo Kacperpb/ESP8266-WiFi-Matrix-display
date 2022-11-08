@@ -5,16 +5,17 @@
 //--------------------------------------------------------------------------
 //setings
 #define PIN D8
-#define BRIGHTNESS 128
+#define BRIGHTNESS 64
 #define TIME 500 //time to spend to change frames
-const char *ssid     = "SSID";
-const char *password = "PASSWORD";
+#define END 23 //when screen edn showing pictures
+#define START 17 // when screen start showing pictures 
+const char *ssid     = "ssid";
+const char *password = "password";
 const long utcOffsetInSeconds = 3600;
 //---------------------------------------------------------------------------
 //WiFi
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-// Define NTP Client to get time
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 
@@ -309,7 +310,8 @@ long Pepe1[] = {
                    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 
                    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 
                    };
-long enderman[] = {    0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 
+long enderman[] = {    
+                    0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 
                    0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 
                    0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 
                    0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00A0A0A0, 0x00A0A0A0, 0x00A0A0A0, 
@@ -389,16 +391,16 @@ void setup(){
 
   timeClient.begin();
 
-    strip.begin();
-    strip.show(); 
-    strip.setBrightness(BRIGHTNESS);
+  strip.begin();
+  strip.show(); 
+  strip.setBrightness(BRIGHTNESS);
 
     RenderFrame();
 }
 
 void loop()
 {
- 
+ //nothing 
 }
 //------------------------------------------------------------------------
 //show pictures
@@ -408,255 +410,251 @@ void RenderFrame()
   {
       timeClient.update();
 
-    Serial.print(daysOfTheWeek[timeClient.getDay()]);
-    Serial.print(", ");
-    Serial.print(timeClient.getHours());
-    Serial.print(":");
-    Serial.print(timeClient.getMinutes());
-    Serial.print(":");
-    Serial.println(timeClient.getSeconds());
-  
-      if(timeClient.getSeconds() > 30)
-      {
-        Serial.print("chyba działa ");
-      }
-      delay(10);
-      if (timeClient.getHours() < 23 & timeClient.getHours() > 15)
-      {
-        if (W == 1)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, eye_Left[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 2)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, eye_right[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 3)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, eye_closed[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if (W == 4)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, cat1[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 5)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, cat2[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 6)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, cat3[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 7)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, SUS1[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 8)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, SUS2[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 9)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg1[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 10)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg2[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if (W == 11)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg3[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 12)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg4[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 13)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg5[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 14)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, egg6[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 15)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, library[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 16)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, Pepe[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 17)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, Pepe1[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 18)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, enderman[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 19)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, parot[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else if(W == 20)
-        {
-          for (int t = 0; t < 256; t++)
-          {
-            strip.setPixelColor(t, sword[t]); 
-          }
-        
-          strip.show();
-          delay(TIME);
-          W++;
-        }
-        else
-        {
-          W=1;
-        }
-      }
-      else 
+    // Serial.print(daysOfTheWeek[timeClient.getDay()]);
+    // Serial.print(", ");
+    // Serial.print(timeClient.getHours());
+    // Serial.print(":");
+    // Serial.print(timeClient.getMinutes());
+    // Serial.print(":");
+    // Serial.println(timeClient.getSeconds());
+    Serial.print(WiFi.status());
+
+    if (timeClient.getHours() < END & timeClient.getHours() >= START)
+    {
+      if (W == 1)
       {
         for (int t = 0; t < 256; t++)
-          {
-           strip.setPixelColor(t, black_screen[t]); 
-         }
+        {
+          strip.setPixelColor(t, eye_Left[t]); 
+        }
       
-          strip.show();
-          delay(TIME);
-      } 
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 2)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, eye_right[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 3)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, eye_closed[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if (W == 4)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, cat1[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 5)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, cat2[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 6)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, cat3[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 7)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, SUS1[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 8)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, SUS2[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 9)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg1[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 10)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg2[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if (W == 11)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg3[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 12)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg4[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 13)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg5[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 14)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, egg6[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 15)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, library[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 16)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, Pepe[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 17)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, Pepe1[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 18)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, enderman[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 19)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, parot[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else if(W == 20)
+      {
+        for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, sword[t]); 
+        }
+      
+        strip.show();
+        delay(TIME);
+        W++;
+      }
+      else
+      {
+        W=1;
+      }
+    }
+    else 
+    {
+      for (int t = 0; t < 256; t++)
+        {
+          strip.setPixelColor(t, black_screen[t]); 
+        }
+    
+        strip.show();
+        delay(TIME);
+    } 
   }
 }
