@@ -1,5 +1,5 @@
 # ESP8266-WiFi-Matrix-display
- # 14x14-Led_Matrix_ardruino
+ # 14x14-Led_Matrix
 ## very simple code for ardruino that contains:
 ## -5 animations
 ## -4 static pictures 
