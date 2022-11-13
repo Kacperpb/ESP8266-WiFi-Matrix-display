@@ -7,7 +7,7 @@
 #define PIN D8
 #define BRIGHTNESS 64
 #define TIME 500 //time to spend to change frames
-#define END 23 //when screen edn showing pictures
+#define END 22 //when screen edn showing pictures
 #define START 17 // when screen start showing pictures 
 const char *ssid     = "ssid";
 const char *password = "password";
@@ -410,13 +410,13 @@ void RenderFrame()
   {
       timeClient.update();
 
-    // Serial.print(daysOfTheWeek[timeClient.getDay()]);
-    // Serial.print(", ");
-    // Serial.print(timeClient.getHours());
-    // Serial.print(":");
-    // Serial.print(timeClient.getMinutes());
-    // Serial.print(":");
-    // Serial.println(timeClient.getSeconds());
+    Serial.print(daysOfTheWeek[timeClient.getDay()]);
+    Serial.print(", ");
+    Serial.print(timeClient.getHours());
+    Serial.print(":");
+    Serial.print(timeClient.getMinutes());
+    Serial.print(":");
+    Serial.println(timeClient.getSeconds());
     Serial.print(WiFi.status());
 
     if (timeClient.getHours() < END & timeClient.getHours() >= START)
